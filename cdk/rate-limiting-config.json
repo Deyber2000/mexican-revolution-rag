@@ -1,0 +1,41 @@
+{
+  "rateLimits": {
+    "default": {
+      "requestsPerSecond": 10,
+      "burstSize": 20
+    },
+    "chat": {
+      "requestsPerSecond": 5,
+      "burstSize": 10
+    },
+    "summarize": {
+      "requestsPerSecond": 2,
+      "burstSize": 5
+    },
+    "classify": {
+      "requestsPerSecond": 2,
+      "burstSize": 5
+    }
+  },
+  "throttling": {
+    "enabled": true,
+    "quota": {
+      "requestsPerDay": 10000,
+      "requestsPerHour": 1000
+    }
+  },
+  "wafRules": {
+    "rateLimit": {
+      "requestsPer5Minutes": 2000,
+      "action": "block"
+    },
+    "ipReputation": {
+      "enabled": true,
+      "action": "block"
+    },
+    "geoBlocking": {
+      "enabled": false,
+      "allowedCountries": ["US", "CA", "MX"]
+    }
+  }
+}
