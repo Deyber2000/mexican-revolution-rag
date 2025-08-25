@@ -1,0 +1,37 @@
+services:
+  rag-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mexican-revolution-rag-agent-1
+    ports:
+      - "8000:8000"  # FastAPI
+      - "8501:8501"  # Streamlit
+    env_file:
+      - .env
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ENABLE_PERFORMANCE_MONITORING=${ENABLE_PERFORMANCE_MONITORING:-false}
+      - ENABLE_ADVANCED_CALIBRATION=${ENABLE_ADVANCED_CALIBRATION:-false}
+      - ENABLE_STATISTICAL_OPTIMIZATION=${ENABLE_STATISTICAL_OPTIMIZATION:-false}
+    volumes:
+      - .:/app
+    command: ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3 
