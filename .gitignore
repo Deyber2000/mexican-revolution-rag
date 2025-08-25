@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Environments
+.env
+venv/
+.venv
+__pycache__/
+.pytest_cache/
+htmlcov/
+.coverage
